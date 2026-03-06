@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'temporal-proto-converter/composer.json'
+      - 'temporal-proto-converter/version'
 
 jobs:
   tag:
@@ -23,7 +23,7 @@ jobs:
 
       - name: Check and create tag
         run: |
-          VERSION=$(python3 -c "import json; print(json.load(open('${{ github.workspace }}/temporal-proto-converter/composer.json'))['version'])")
+          VERSION=$(cat temporal-proto-converter/version | tr -d '[:space:]')
           TAG="temporal-proto-converter-$VERSION"
 
           if git rev-parse "$TAG" >/dev/null 2>&1; then
