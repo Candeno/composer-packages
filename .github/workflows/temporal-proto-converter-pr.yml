@@ -18,23 +18,14 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Get current and latest versions
-        id: versions
+      - name: Validate version bump
         run: |
-          CURRENT=$(cat temporal-proto-converter/version | tr -d '[:space:]')
+          CURRENT=$(cat "$GITHUB_WORKSPACE/temporal-proto-converter/version" | tr -d '[:space:]')
           echo "Current version: $CURRENT"
 
           LATEST=$(git tag --list 'temporal-proto-converter-*' --sort=-v:refname | head -n1 | sed 's|temporal-proto-converter-||')
           : "${LATEST:=0.0.0}"
           echo "Latest tag: $LATEST"
-
-          echo "current=$CURRENT" >> $GITHUB_OUTPUT
-          echo "latest=$LATEST" >> $GITHUB_OUTPUT
-
-      - name: Validate version bump
-        run: |
-          CURRENT="${{ steps.versions.outputs.current }}"
-          LATEST="${{ steps.versions.outputs.latest }}"
 
           version_gt() {
             [ "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" ]
