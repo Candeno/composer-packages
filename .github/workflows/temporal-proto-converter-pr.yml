@@ -21,8 +21,12 @@ jobs:
       - name: Get current and latest versions
         id: versions
         run: |
-          CURRENT=$(python3 -c "import json; print(json.load(open('temporal-proto-converter/composer.json'))['version'])")
+          CURRENT=$(python3 -c "import json; print(json.load(open('${{ github.workspace }}/temporal-proto-converter/composer.json'))['version'])")
           echo "Current version: $CURRENT"
+          if [ -z "$CURRENT" ]; then
+            echo "::error::Failed to read version from composer.json"
+            exit 1
+          fi
 
           LATEST=$(git tag --list 'temporal-proto-converter-*' --sort=-v:refname | head -n1 | sed 's|temporal-proto-converter-||')
           : "${LATEST:=0.0.0}"
