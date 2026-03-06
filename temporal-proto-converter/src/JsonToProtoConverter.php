@@ -63,7 +63,10 @@ final class JsonToProtoConverter implements DataConverterInterface
             // (e.g. "createdAt": "1772632446"). JSON_NUMERIC_CHECK converts those quoted
             // numeric strings to JSON numbers so Go can unmarshal them into int64 fields.
             // String enum values (e.g. "action") are not numeric so they are left untouched.
-            $data = json_encode(json_decode($value->serializeToJsonString(), associative: true), JSON_NUMERIC_CHECK);
+            // associative: false keeps objects as stdClass so json_encode always
+            // produces {...} even for empty messages — associative: true would turn
+            // an empty object into a PHP array and json_encode would emit [] instead of {}.
+            $data = json_encode(json_decode($value->serializeToJsonString(), associative: false), JSON_NUMERIC_CHECK);
 
             $payload = new Payload();
             $payload->setData($data);
