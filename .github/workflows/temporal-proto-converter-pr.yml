@@ -21,7 +21,7 @@ jobs:
       - name: Get current and latest versions
         id: versions
         run: |
-          CURRENT=$(jq -r '.version' temporal-proto-converter/composer.json)
+          CURRENT=$(python3 -c "import json; print(json.load(open('temporal-proto-converter/composer.json'))['version'])")
           echo "Current version: $CURRENT"
 
           LATEST=$(git tag --list 'temporal-proto-converter-*' --sort=-v:refname | head -n1 | sed 's|temporal-proto-converter-||')

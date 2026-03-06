@@ -23,7 +23,7 @@ jobs:
 
       - name: Check and create tag
         run: |
-          VERSION=$(jq -r '.version' temporal-proto-converter/composer.json)
+          VERSION=$(python3 -c "import json; print(json.load(open('temporal-proto-converter/composer.json'))['version'])")
           TAG="temporal-proto-converter-$VERSION"
 
           if git rev-parse "$TAG" >/dev/null 2>&1; then
