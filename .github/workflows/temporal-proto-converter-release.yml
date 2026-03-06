@@ -24,7 +24,7 @@ jobs:
 
       - name: Check and create tag
         run: |
-          VERSION=$(cat temporal-proto-converter/version | tr -d '[:space:]')
+          VERSION=$(cat "$GITHUB_WORKSPACE/temporal-proto-converter/version" | tr -d '[:space:]')
           TAG="temporal-proto-converter-$VERSION"
 
           if git rev-parse "$TAG" >/dev/null 2>&1; then
