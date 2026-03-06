@@ -3,6 +3,7 @@
     "description": "Temporal DataConverter for proto3 JSON <-> Go interop over the Temporal PHP SDK",
     "type": "library",
     "license": "proprietary",
+    "version": "1.0.0",
     "require": {
         "php": "^8.2",
         "google/protobuf": "^4",

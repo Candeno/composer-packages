@@ -1,0 +1,38 @@
+name: temporal-proto-converter | Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'temporal-proto-converter/composer.json'
+
+jobs:
+  tag:
+    runs-on: arc-runner-set
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Fetch tags
+        run: git fetch --tags origin
+
+      - name: Check and create tag
+        run: |
+          VERSION=$(jq -r '.version' temporal-proto-converter/composer.json)
+          TAG="temporal-proto-converter-$VERSION"
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "❌ Tag $TAG already exists — version must be bumped."
+            exit 1
+          fi
+
+          echo "✅ Creating tag $TAG"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Release temporal-proto-converter $VERSION"
+          git push origin "$TAG"
