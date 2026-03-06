@@ -1,0 +1,13 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'temporal-proto-converter/version'
+
+jobs:
+  release:
+    uses: candeno/ci-cd/.github/workflows/publish-tag.yml@main
+    secrets: inherit
