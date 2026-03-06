@@ -4,7 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'temporal-proto-converter/version'
+      - 'temporal-proto-converter/**'
+      - '!temporal-proto-converter/composer.lock'
 
 jobs:
   tag:
@@ -27,12 +28,12 @@ jobs:
           TAG="temporal-proto-converter-$VERSION"
 
           if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "❌ Tag $TAG already exists — version must be bumped."
+            echo "❌ Tag $TAG already exists — bump the version in temporal-proto-converter/version"
             exit 1
           fi
 
-          echo "✅ Creating tag $TAG"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag -a "$TAG" -m "Release temporal-proto-converter $VERSION"
           git push origin "$TAG"
+          echo "✅ Created tag $TAG"
