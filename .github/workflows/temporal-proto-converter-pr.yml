@@ -10,7 +10,7 @@ on:
 
 jobs:
   validate-version:
-    runs-on: arc-runner-set
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
           echo "✅ version bump valid: $CURRENT > $LATEST"
 
   validate-composer:
-    runs-on: arc-runner-set
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
